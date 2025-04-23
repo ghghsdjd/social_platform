@@ -14,7 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * 前后端接口的文档,这个你不需要管
+ * 
  */
 @Configuration
 @EnableSwagger2
