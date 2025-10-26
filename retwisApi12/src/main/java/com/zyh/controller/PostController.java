@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * 文章相关的接口
+ * * 文章コントローラー
  */
 @RequestMapping("/post")
 @RestController
@@ -25,17 +25,17 @@ public class PostController {
     @Autowired
     TypeService typeService;
 
-    @Logweb("添加文章")
-    @ApiOperation(value = "添加文章")
+    @Logweb("文章を追加する")
+    @ApiOperation(value = "文章を追加する")
     @PostMapping("/add")
     public Msg add(@RequestBody Post post){
         postService.addPost(post);
-        return Msg.success("添加成功").add("id",post.getId());
+        return Msg.success("文章追加する成功").add("id",post.getId());
     }
 
     /**
-     * 查出所有的文章
-     * 分页相关的参数
+     * 全部の文章を見つける
+     * ページ分け
      * @param page
      * @param size
      * @return
@@ -47,7 +47,7 @@ public class PostController {
     }
 
     /**
-     * 通过文章的id查找除文章的内容
+     * 文章のIDで内容を見つける
      * @param id
      * @return
      */
@@ -55,13 +55,13 @@ public class PostController {
     public Msg findPostById(@PathVariable Integer id){
         PostDetai postDetai=postService.findPostById(id);
         if(postDetai==null)
-            return Msg.fail("文章不存在或删除");
+            return Msg.fail("文章が存在しません");
         return Msg.success().add("data",postDetai);
     }
 
     /**
-     * 这个也是通过文章的id查找出内容
-     * 不过是修改的时候，上面是查看
+     * 文章のIDで内容を見つける
+     *
      * @param id
      * @return
      */
@@ -72,8 +72,8 @@ public class PostController {
     }
 
     /**
-     * 查找一个类型的文章
-     * @param name 文章类型的名字
+     * 文章のタイプで内容を見つける
+     * @param name タイプ名
      * @param page
      * @param size
      * @return
@@ -83,25 +83,25 @@ public class PostController {
                             @RequestParam(name = "pagenum",defaultValue = "1")Integer page,
                             @RequestParam(name ="pagesize",defaultValue = "5")Integer size){
         Integer id=typeService.findTypeIdByName(name);
-        if(id==null) return Msg.fail("不存在这个类型");
+        if(id==null) return Msg.fail("タイプが存在しません");
         return Msg.success().add("postList",postService.findTypeById(id,page, size));
     }
 
     /**
-     * 修改文章的内容
+     * 文章を修正する
      * @param post
      * @return
      */
-    @Logweb("修改文章")
+    @Logweb("文章を修正する")
     @PutMapping("/update")
     public Msg update(@RequestBody Post post){
         postService.update(post);
-        return Msg.success("修改成功");
+        return Msg.success("文章を修正する成功");
     }
     @GetMapping("/rePost/{id}")
     public Msg rePost(@PathVariable Integer id){
         int ids = postService.rePost(id);
-        return Msg.success("转发成功").add("id",ids);
+        return Msg.success("リポスト成功").add("id",ids);
     }
 
 }

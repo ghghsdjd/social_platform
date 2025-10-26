@@ -25,43 +25,43 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * ShiroConfig:shiro 配置类,配置哪些拦截,哪些不拦截,哪些授权等等各种配置都在这里
+ * ShiroConfig: Shiro の設定クラス。どのリクエストをフィルタするか、許可設定などはここで行う
  *
  */
 
 /**
- * @description  Shiro配置类
+ * @description  Shiro 設定クラス
  */
 @Configuration
 public class ShiroConfig {
     /**
-     * 先经过token过滤器，如果检测到请求头存在 token，则用 token 去 login，接着走 Realm 去验证
+     * まず token フィルタを通し、リクエストヘッダに token が存在する場合はその token で login を実行し、Realm で検証する
      */
     @Bean
     public ShiroFilterFactoryBean factory(SecurityManager securityManager) {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
 
-        // 添加自己的过滤器并且取名为jwt
+        // カスタムフィルタを追加し、名前を "jwt" とする
         Map<String, Filter> filterMap = new LinkedHashMap<>();
-        //设置我们自定义的JWT过滤器
+        // カスタムの JWT フィルタを設定
         filterMap.put("jwt", new JWTFilter());
         factoryBean.setFilters(filterMap);
         factoryBean.setSecurityManager(securityManager);
-        // 设置无权限时跳转的 url;
+        // 権限なしの場合にリダイレクトする URL を設定
         factoryBean.setUnauthorizedUrl("/unauthorized/无权限");
         Map<String, String> filterRuleMap = new HashMap<>();
-        // 所有请求通过我们自己的JWT Filter
+        // すべてのリクエストをカスタム JWT Filter を通す
         filterRuleMap.put("/**", "jwt");
 
-        // 放行不需要权限认证的接口
-        //放行Swagger接口
+        // 認可不要なインターフェースを許可する
+        // Swagger のインターフェースを許可する
         filterRuleMap.put("/v2/api-docs","anon");
         filterRuleMap.put("/swagger-resources/configuration/ui","anon");
         filterRuleMap.put("/swagger-resources","anon");
         filterRuleMap.put("/swagger-resources/configuration/security","anon");
         filterRuleMap.put("/swagger-ui.html","anon");
         filterRuleMap.put("/webjars/**","anon");
-        //放行登录接口和其他不需要权限的接口
+        // ログインやその他認可不要なインターフェースを許可する
         filterRuleMap.put("/login", "anon");
         filterRuleMap.put("/register","anon");
         filterRuleMap.put("/findPassword","anon");
@@ -74,15 +74,15 @@ public class ShiroConfig {
     }
 
     /**
-     * 注入 securityManager
+     * securityManager を注入する
      */
     @Bean
     public SecurityManager securityManager(CustomRealm customRealm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        // 设置自定义 realm.
+        // カスタム realm を設定する
         customRealm.setAuthenticationCachingEnabled(true);// 开启认证缓存
         customRealm.setAuthorizationCachingEnabled(true);// 开启授权缓存
-        //使用自定义的redis 进行缓存
+        // 使用自定义的redis 进行缓存
         customRealm.setCacheManager(new RedisCacheManager());// 设置缓存管理器
         customRealm.setCacheManager(new RedisCacheManager());
         customRealm.setCachingEnabled(true);//开启全局缓存
@@ -104,7 +104,7 @@ public class ShiroConfig {
     }
 
     /**
-     * 添加注解支持
+     * 注解支持を追加する
      */
     @Bean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {

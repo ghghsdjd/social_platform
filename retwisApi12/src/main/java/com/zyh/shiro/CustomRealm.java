@@ -18,8 +18,8 @@ import org.springframework.util.Assert;
 
 
 /**
- * 安全框架用的shiro 要重写doGetAuthenticationInfo方法
- * 添加我们自己的规则
+ * セキュリティフレームワークで使用する Shiro。doGetAuthenticationInfo メソッドをオーバーライドする必要がある。
+ * 独自のルールを追加する。
  */
 
 @Component
@@ -29,7 +29,7 @@ public class CustomRealm extends AuthorizingRealm {
     UserMapper userMapper;
 
     /**
-     * 必须重写此方法，不然会报错
+     * このメソッドをオーバーライドする必要がある。さもないとエラーになる。
      */
     @Override
     public boolean supports(AuthenticationToken token) {
@@ -37,7 +37,7 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     /**
-     * 使用此方法进行id正确与否验证，错误抛出异常即可。
+     * このメソッドを使用して ID の正当性を検証する。誤りがあれば例外を投げる。
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
@@ -59,8 +59,8 @@ public class CustomRealm extends AuthorizingRealm {
     }
 
     /**
-     * 权限认证
-     * 暂时还没有涉及到权限业务
+     * 権限認証
+     * 現時点では権限関連の処理はまだ扱っていない。
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {

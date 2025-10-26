@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 后台接口
+ *
  */
 @RequestMapping("/admin")
 @RestController
@@ -34,7 +34,7 @@ public class AdminController {
     PostService postService;
 
     /**
-     * 查找出所有用户
+     * find all users
      * @param page
      * @param size
      * @return
@@ -48,7 +48,7 @@ public class AdminController {
     }
 
     /**
-     * 通过用户ID 搜索用户
+     * search user by id
      * @param id
      * @return
      */
@@ -63,7 +63,7 @@ public class AdminController {
     }
 
     /**
-     * 修改用户状态
+     * update user status
      * @param id
      * @return
      */
@@ -75,7 +75,7 @@ public class AdminController {
     }
 
     /**
-     * 找出所有文章
+     * find all posts
      * @param page
      * @param size
      * @return
@@ -88,7 +88,7 @@ public class AdminController {
     }
 
     /**
-     * 通过文章ID进行查找
+     * search post by id
      * @param id
      * @return
      */
@@ -103,7 +103,7 @@ public class AdminController {
     }
 
     /**
-     * 修改文章的状态
+     * update post status
      * @param id
      * @return
      */
@@ -115,7 +115,7 @@ public class AdminController {
     }
 
     /**
-     * 找出所有未处理的举报
+     * 通報一覧を取得する
      * @return
      */
     @RequiresRoles("admin")
@@ -126,7 +126,7 @@ public class AdminController {
     }
 
     /**
-     * 把举报标记为已处理
+     * 通報を処理する
      * @param id
      * @return
      */

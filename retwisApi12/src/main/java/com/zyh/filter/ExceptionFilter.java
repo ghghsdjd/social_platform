@@ -22,9 +22,9 @@ public class ExceptionFilter implements Filter {
         try {
             chain.doFilter(request, response);
         } catch (Exception e) {
-            // 异常捕获，发送到error controller
+            // 例外をキャッチし、エラーコントローラへ送信
             request.setAttribute("filter.error", e);
-            //将异常分发到/error/exthrow控制器
+            // 例外を /error/exthrow コントローラへディスパッチする
             request.getRequestDispatcher("/error/exthrow").forward(request, response);
         }
     }

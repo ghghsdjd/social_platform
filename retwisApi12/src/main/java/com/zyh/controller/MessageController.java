@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 消息相关的接口
+ * * メッセージコントローラー
  */
 @RequestMapping("/message")
 @RestController
@@ -24,7 +24,7 @@ public class MessageController {
     MessageService messageService;
 
     /**
-     * 查询是否有消息未查看的
+     * メッセージが存在するかどうかを確認します
      * @return
      */
     @GetMapping("/exists")
@@ -33,7 +33,7 @@ public class MessageController {
     }
 
     /**
-     * 返回消息的所有类型
+     * メッセージの種類と数を見つける
      * @return
      */
     @GetMapping("/findMessageTypeNum")
@@ -43,7 +43,7 @@ public class MessageController {
     }
 
     /**
-     * 查出某一类型的消息
+     * メッセージの種類IDでメッセージを見つける
      * @param id
      * @return
      */
@@ -54,11 +54,11 @@ public class MessageController {
     }
 
     /**
-     * 消息标记为已读
-     * @param id 消息的id
+     * メッセージを既読にする
+     * @param id メセージID
      * @return
      */
-    @Logweb("已读消息")
+    @Logweb("メッセージを既読にする")
     @GetMapping("/read/{id}")
     public Msg read(@PathVariable Integer id){
         boolean up = messageService.update(id,2);
@@ -66,11 +66,11 @@ public class MessageController {
     }
 
     /**
-     * 删除消息的id
+     * メッセージを削除する
      * @param id
      * @return
      */
-    @Logweb("删除消息")
+    @Logweb("メッセージを削除する")
     @GetMapping("/delete/{id}")
     public Msg delete(@PathVariable Integer id){
         boolean up = messageService.update(id,0);

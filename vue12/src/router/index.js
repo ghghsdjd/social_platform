@@ -150,7 +150,7 @@ const routes = [
         path: '/login',
         component: Login,
         meta:{
-            title:'登录'
+            title:'日志'
         }
     },
     {
@@ -164,7 +164,7 @@ const routes = [
         path: '/editProfile',
         component: EditProfile,
         meta:{
-            title:'编辑个人信息'
+            title:'编辑个人资料'
         }
     }
 

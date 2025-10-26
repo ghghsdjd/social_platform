@@ -3,13 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-//饿了么UI
+// Element UI
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-//图标
+// アイコン
 import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
-//富文本编辑
+// リッチテキストエディタ
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import showdown from 'showdown'

@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用户信息的修改
- * 注册登录
+ * ユーザー情報の変更
+ * 登録とログイン
  */
 @RestController
 @Api(value = "UserController")
@@ -39,7 +39,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @Logweb("用户注册")
+    @Logweb("ユーザー登録")
     @ApiOperation(value = "用户注册", notes = "填写用户名，密码")
     @PostMapping("/register")
     public Msg register( @Validated @RequestBody RegisterDto registerDto)
@@ -51,7 +51,7 @@ public class UserController {
         return Msg.fail(msg);
     }
 
-    @Logweb("用户登录")
+    @Logweb("ユーザー登录")
     @ApiOperation(value = "用户登录", notes = "登录--不进行拦截")
     @PostMapping("/login")
     public Msg login(@RequestBody @Validated LoginDto loginDto) {

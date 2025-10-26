@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * 自定义redis缓存的实现
+ * カスタム Redis キャッシュの実装
  * @param <K>
  * @param <V>
  */
@@ -31,13 +31,13 @@ public class RedisCache<K,V> implements Cache<K,V> {
 
     @Override
     public V get(K k) throws CacheException {
-       // System.out.println("获取缓存:"+ k);
+       // System.out.println("キャッシュを取得: "+ k);
         return (V) getRedisTemplate().opsForHash().get(this.cacheName,k.toString());
     }
 
     @Override
     public V put(K k, V v) throws CacheException {
-       // System.out.println("设置缓存key: "+k+" value:"+v);
+       // System.out.println("キャッシュキーを設定: "+k+" value:"+v);
         getRedisTemplate().opsForHash().put(this.cacheName,k.toString(),v);
         return null;
     }
@@ -69,10 +69,10 @@ public class RedisCache<K,V> implements Cache<K,V> {
     }
 
 
-    //封装获取redisTemplate
+    // RedisTemplate を取得するラッパー
     private RedisTemplate getRedisTemplate(){
         RedisTemplate redisTemplate = (RedisTemplate) ApplicationContextUtil.getBean("redisTemplate");
-        //设置序列化方式
+        // シリアライゼーション方式を設定
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         return redisTemplate;

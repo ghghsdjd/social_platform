@@ -3,7 +3,7 @@ package com.zyh.shiro;
 import org.apache.shiro.authc.AuthenticationToken;
 
 /**
- * @description  对token进行扩展
+ * @description トークンを拡張する
  */
 public class JWTToken implements AuthenticationToken {
     private String token;

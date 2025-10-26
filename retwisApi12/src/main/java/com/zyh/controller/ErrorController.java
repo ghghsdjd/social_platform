@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * jwtFiter的异常无法捕获，就是登录认证失败了，才会触发的
- * 网上找的方法
+ * * カスタムエラーコントローラー
+ *
  */
 @RestController
 public class ErrorController extends BasicErrorController {
@@ -32,7 +32,7 @@ public class ErrorController extends BasicErrorController {
     public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
         Map<String, Object> body = getErrorAttributes(request, isIncludeStackTrace(request, MediaType.ALL));
         HttpStatus status = getStatus(request);
-        // 获取错误信息
+        // エラーメッセージを取得する
         String message = body.get("message").toString();
 
         HashMap<String, Object> map = new HashMap<>();

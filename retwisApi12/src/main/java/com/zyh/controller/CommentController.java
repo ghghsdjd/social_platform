@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 评论相关的接口
+ * コメントコントローラー
  */
 @RestController
 public class CommentController {
@@ -23,20 +23,20 @@ public class CommentController {
 
     /**
      *
-     * @param id  评论文章的ID
-     * @param map 接受json文档，也就是获取评论内容
+     * @param id  文書ID
+     * @param map コメント内容を受け取る
      * @return
      */
-    @Logweb("评论")
+    @Logweb("コメント")
     @PostMapping("/comment/{id}")
     public Msg comment(@PathVariable Integer id, @RequestBody Map<String, String> map){
         Comment item = commentService.comment(id, map.get("content"));
-        return Msg.success("评论成功").add("item",item);
+        return Msg.success("コメントしました").add("item",item);
     }
 
     /**
      *
-     * @param id 查出一篇文档里的所有评论
+     * @param id 文書ID
      * @return
      */
     @GetMapping("/findCommentByPid/{id}")
@@ -47,11 +47,11 @@ public class CommentController {
 
     /**
      *
-     * @param commentId 回复的评论ID
-     * @param map 接收回复内容的
+     * @param commentId コメントID
+     * @param map 返信内容を受け取る
      * @return
      */
-    @Logweb("回复")
+    @Logweb("返信")
     @PostMapping("/answer/{commentId}")
     public Msg answer(@PathVariable Integer commentId,@RequestBody Map<String,String> map){
         Answer answer = commentService.answer(commentId, map.get("content"));

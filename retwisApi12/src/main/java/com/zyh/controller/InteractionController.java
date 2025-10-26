@@ -10,47 +10,47 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 点赞收藏相关的接口
+ * * いいねとコレクションコントローラー
  */
 @RestController
 public class InteractionController {
     @Autowired
     InteractionService interactionService;
 
-    @Logweb("点赞")
+    @Logweb("いいね")
     @GetMapping("/onStart/{postId}")
     public Msg onStart(@PathVariable Integer postId){
         if(interactionService.existsStar(postId)){
-            return Msg.fail("点赞失败");
+            return Msg.fail("Failed to like");
         }
         interactionService.onStart(postId);
-        return Msg.success("点赞成功");
+        return Msg.success("いいね成功");
     }
-    @Logweb("取消点赞")
+    @Logweb("いいね解除")
     @GetMapping("/unStart/{postId}")
     public Msg unStart(@PathVariable Integer postId){
         if(!interactionService.existsStar(postId)){
-            return Msg.fail("取消点赞失败");
+            return Msg.fail("いいね解除失敗");
         }
         interactionService.unStart(postId);
-        return Msg.success("取消点赞成功");
+        return Msg.success("いいね解除成功");
     }
-    @Logweb("收藏")
+    @Logweb("コレクション")
     @GetMapping("/onCollect/{postId}")
     public Msg onCollect(@PathVariable Integer postId){
         if(interactionService.existsCollect(postId)){
-            return Msg.fail("收藏失败");
+            return Msg.fail("コレクション失敗");
         }
         else {
             interactionService.onCollect(postId);
         }
-        return Msg.success("收藏成功");
+        return Msg.success("コレクション成功");
     }
-    @Logweb("取消收藏")
+    @Logweb("コレクション解除")
     @GetMapping("/unCollect/{postId}")
     public Msg unCollect(@PathVariable Integer postId){
         if(!interactionService.existsCollect(postId)){
-            return Msg.fail("取消收藏失败");
+            return Msg.fail("コレクション解除失敗");
         }
         else {
             interactionService.unCollect(postId);

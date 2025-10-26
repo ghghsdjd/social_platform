@@ -4,10 +4,10 @@ import router from "./router";
 import store from "./store";
 
 
-//设置基础url
+// ベースURLを設定
 axios.defaults.baseURL="http://localhost:8888/retwisApi/"
 
-// 请求在到达服务器之前，先会调用use中的这个回调函数来添加请求头信息
+// サーバーに到達する前に、use 内のこのコールバックが呼ばれ、リクエストヘッダを追加します
 axios.interceptors.request.use(config=>{
     config.headers.token=window.sessionStorage.getItem('token')
     return config

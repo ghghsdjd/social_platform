@@ -30,29 +30,30 @@ public class EmailController {
 
     /**
      *
-     * @param email 邮箱地址
+     * @param email 登録するメールアドレス
      * @param request
      * @return
      * @throws MessagingException
      */
-    @Logweb("发送注册邮件")
+    @Logweb("登録するメールアドレス送る")
     @PostMapping("/sendEmail")
     public Msg sendEmail(@Validated @RequestBody EmailDto email, HttpServletRequest request) throws MessagingException {
         String ip=IpUtil.getIpAddr(request);
         String key=ip+":emailCount";
         String key2=key+":total";
         ArrayList<LimitIp> limitList=new ArrayList<>();
-        //接口限流，一小时不能超过5封注册邮件，1分钟不超过1封，
-        //用reids设置过期时间实现的
-        limitList.add(new LimitIp(key2,60*60,50,"一小时"));
-        limitList.add(new LimitIp(key,60,10,"一分钟"));
+        //インターフェースフロー制御: 1 時間あたり 5 通を超える登録メールは送信できず、
+        //1 分あたり 1 通を超えるメールは送信できません。
+        //Redisを使用して有効期限を設定する
+        limitList.add(new LimitIp(key2,60*60,50,"1時間"));
+        limitList.add(new LimitIp(key,60,10,"1分"));
         Map<String, String> msg = ipLimitUtil.ipContro(limitList);
         if(!msg.get("message").equals("success")){
             return Msg.fail(msg.get("message"));
         }
-        //发送邮件
+        //メール送る
         emailService.sendRegisterEmail(email.getEmail());
-        return Msg.success("邮件已发送,请在30分钟内完成注册");
+        return Msg.success("メールが送信されました。30分以内に登録を完了してください。");
     }
 
 

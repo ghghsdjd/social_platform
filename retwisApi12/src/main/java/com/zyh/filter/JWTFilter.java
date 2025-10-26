@@ -21,30 +21,30 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
-     * 如果带有 token，则对 token 进行检查，否则直接通过
+     * トークンがある場合はトークンを検査し、ない場合は直接通過させる
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
-        //判断请求的请求头是否带上 "token"
+        // リクエストヘッダに "token" が含まれているか判定
         if (isLoginAttempt(request, response)) {
-            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
+            // 存在する場合は executeLogin を呼び出してログイン処理を行い、トークンの正当性を検査する
             try {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
-                //token 错误
+                // トークンエラー
 
                 responseError(response, e.getMessage());
                // throw new UnknownAccountException();
             }
         }
-        //如果请求头不存在 token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true
+        // リクエストヘッダに token が存在しない場合はログイン処理またはゲストアクセスの可能性があり、トークン検査は不要で true を返す
         return true;
     }
 
     /**
-     * 判断用户是否想要登入。
-     * 检测 header 里面是否包含 token 字段
+     * ユーザーがログインを試行しているかどうかを判定する
+     * header に token フィールドが含まれているかをチェックする
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
@@ -58,21 +58,21 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 执行登陆操作
+     * ログイン処理を実行する
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader("token");
         JWTToken jwtToken = new JWTToken(token);
-        // 提交给realm进行登入，如果错误它会抛出异常并被捕获
+        // realm にログインを委譲し、エラーがあれば例外が投げられる
         getSubject(request, response).login(jwtToken);
-        // 如果没有抛出异常则代表登入成功，返回true
+        // 例外が投げられなければログイン成功を意味し、true を返す
         return true;
     }
 
     /**
-     * 对跨域提供支持
+     * クロスオリジン（CORS）をサポートする
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -81,7 +81,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
-        // 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
+        // CORS の場合、最初に OPTIONS リクエストが送られるため、ここでは OPTIONS リクエストに正しいステータスを直接返す
         if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpServletResponse.setStatus(HttpStatus.OK.value());
             return false;
@@ -91,12 +91,12 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 将非法请求跳转到 /unauthorized/**
+     * 不正なリクエストを /unauthorized/** にリダイレクトする
      */
     private void responseError(ServletResponse response, String message) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            //设置编码，否则中文字符在重定向时会变为空字符串
+            // エンコーディングを設定しないとリダイレクト時に日本語（或いは漢字）が空文字列になる
             message = URLEncoder.encode(message, "UTF-8");
             httpServletResponse.sendRedirect("/unauthorized/" + message);
         } catch (IOException e) {

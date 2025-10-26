@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 关注相关的接口
+ * * フォローコントローラー
  */
 @RestController
 @RequestMapping("/following")
@@ -19,9 +19,9 @@ public class FollowingController {
     FollowingService followingService;
 
     /**
-     * 找到关注的人发的所有文章
-     * @param page 分页的页数，第几页 默认是1
-     * @param size 一页的size        默认是5
+     * 見ている人がフォローしている人の投稿を見つける
+     * @param page ページ番号      デフォルトは1
+     * @param size 1ページあたりのデータ数  デフォルトは5
      * @return
      */
     @GetMapping("/findPost")
@@ -31,7 +31,7 @@ public class FollowingController {
     }
 
     /**
-     * 找出已经关注的所有用户
+     * フォローしている人を見つける
      * @return
      */
     @GetMapping("/findFowings")
